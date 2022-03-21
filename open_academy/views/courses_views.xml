@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="courses_form">
+            <field name="name">open_academy.course.form</field>
+            <field name="model">open_academy.course</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sessions"/>
+                            <field name="responsible"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="courses_tree">
+            <field name="name">open_academy.course.tree</field>
+            <field name="model">open_academy.course</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="responsible"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="courses_search">
+            <field name="name">open_academy.course.search</field>
+            <field name="model">open_academy.course</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <filter name="my_courses" string="My Courses"
+                            domain="[('responsible', '=', uid)]"/>
+                    <group string="Group By">
+                        <filter name="by_responsible" string="Responsible"
+                                context="{'group_by': 'responsible'}"/> </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="partner_inherit">
+            <field name="name">base.partner.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position = "after">
+                    <field name="sessions"></field>
+                    <field name="instructor"></field>
+                </field>
+
+            </field>
+        </record>
+
+        <!--    actions     -->
+        <record model="ir.actions.act_window" id="action_courses_list">
+            <field name="name">Courses</field>
+            <field name="res_model">open_academy.course</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_courses': 1}"/>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Courses" id="menu_open_academy_courses_root" parent="menu_open_academy_root"/>
+        <menuitem name="Courses" id="menu_open_academy_courses" parent="menu_open_academy_courses_root" action="action_courses_list"/>
+
+
+    </data>
+</odoo>

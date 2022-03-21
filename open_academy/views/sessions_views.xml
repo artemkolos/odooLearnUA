@@ -1,0 +1,151 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="sessions_tree">
+      <field name="name">open_academy.sessions.tree</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="priority" eval="16"/>
+      <field name="arch" type="xml">
+        <tree decoration-info="duration>=5" decoration-danger="duration>=15">
+          <field name="name"/>
+          <field name="responsibleUser"/>
+          <field name="instructor"/>
+          <field name="course"/>
+          <field name="start_date"/>
+          <!--          <field name="end_date"/>-->
+          <field name="duration"/>
+          <field name="active"/>
+          <field name="seatsNumber"/>
+          <field name="busySeatsPercent" widget="progressbar"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sessions_form">
+      <field name="name">open_academy.sessions.form</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="priority" eval="16"/>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="responsibleUser"/>
+              <field name="instructor"/>
+              <field name="course"/>
+            </group>
+            <group>
+              <field name="seatsNumber"/>
+              <field name="active"/>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="duration"/>
+            </group>
+          </group>
+
+          <notebook>
+            <page string="Attendees">
+              <field name="attendees" nolabel="1"/>
+            </page>
+          </notebook>
+          <label for="busySeatsPercent"/>
+          <field name="busySeatsPercent" widget="progressbar"/>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sessions_gantt">
+      <field name="name">open_academy.sessions.gantt</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="priority" eval="16"/>
+      <field name="arch" type="xml">
+        <gantt string="Ideas"
+               date_start="start_date"
+               date_stop="end_date"
+               default_group_by="name" />
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sessions_calendar">
+      <field name="name">open_academy.sessions.calendar</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="arch" type="xml">
+        <calendar string="Ideas" date_start="start_date" date_stop="end_date" color="instructor">
+          <field name="name"/>
+        </calendar>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sessions_graph">
+      <field name="name">open_academy.sessions.graph</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="arch" type="xml">
+        <graph string="Participations by Courses">
+          <field name="course"/>
+          <field name="seatsNumber" type="measure"/>
+        </graph>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="session_kanban">
+      <field name="name">open_academy.sessions.kanban</field>
+      <field name="model">open_academy.sessions</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="course">
+          <field name="color"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                <div class="oe_dropdown_kanban">
+                  <!-- dropdown menu -->
+                  <div class="oe_dropdown_toggle">
+                    <i class="fa fa-bars fa-lg"/>
+                    <ul class="oe_dropdown_menu">
+                      <li>
+                        <a type="delete">Delete</a>
+                      </li>
+                      <li>
+                        <ul class="oe_kanban_colorpicker"
+                            data-field="color"/>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="oe_clear"></div>
+                </div>
+                <div t-attf-class="oe_kanban_content">
+                  <!-- title -->
+                  Session name:
+                  <field name="name"/>
+                  <br/>
+                  Start date:
+                  <field name="start_date"/>
+                  <br/>
+                  duration:
+                  <field name="duration"/>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="session_list_action">
+      <field name="name">Sessions</field>
+      <field name="res_model">open_academy.sessions</field>
+      <field name="view_mode">tree,gantt,form,graph,calendar,kanban</field>
+    </record>
+
+
+    <menuitem name="openAcademy" id="menu_open_academy_root"/>
+
+    <menuitem name="Sessions" id="menu_open_academy_sessions_root" parent="menu_open_academy_root"/>
+    <menuitem name="Sessions" id="menu_open_academy_sessions" parent="menu_open_academy_sessions_root" action="session_list_action"/>
+<!--    <menuitem name="Create Sessions" id="menu_open_academy_create_sessions" parent="menu_open_academy_sessions_root" action="action_create_sessions"/>-->
+
+  </data>
+</odoo>

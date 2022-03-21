@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_create_sessions_form">
+            <field name="name">create.sessions.wizard.form</field>
+            <field name="model">create.sessions.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create new sessions">
+                    <group>
+                        <field name="session"/>
+                        <field name="attendee"/>
+                    </group>
+                    <footer>
+                        <button name="subscribe" type="object" string="Subscribe" class="oe_highlight"/>
+<!--                        <button special="cancel" string="Cancel"/>-->
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_create_sessions">
+            <field name="name">Create sessions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">create.sessions.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_create_sessions_form"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_open_academy_sessions" />
+        </record>
+
+<!--        <record model="ir.actions.server" id="action_create_sessions_server">-->
+<!--            <field name="name">Create sessions</field>-->
+<!--            <field name="model_id" ref="open_academy.model_open_academy_sessions"/>-->
+
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">create.sessions.wizard</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="view_id" ref="view_create_sessions_form"/>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+
+
+
+<!--        <act_window id="launch_session_wizard"-->
+<!--                    name="Add Attendees"-->
+<!--                    src_model="open_academy.sessions"-->
+<!--                    res_model="open_academy.wizard"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"-->
+<!--                    key2="client_action_multi"/>-->
+
+
+    </data>
+</odoo>

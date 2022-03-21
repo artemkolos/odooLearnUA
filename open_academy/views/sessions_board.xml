@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="act_sessions_graph">
+        <field name="name">Attendees by course</field>
+        <field name="res_model">open_academy.sessions</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="sessions_graph"/>
+    </record>
+    <record model="ir.actions.act_window" id="act_session_calendar">
+        <field name="name">Sessions</field>
+        <field name="res_model">open_academy.sessions</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="sessions_calendar"/>
+    </record>
+    <record model="ir.actions.act_window" id="act_course_list">
+        <field name="name">Courses</field>
+        <field name="res_model">open_academy.course</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="board_session_form">
+        <field name="name">Session Dashboard Form</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="Session Dashboard">
+                <board style="2-1">
+                    <column>
+                        <action string="Attendees by course" name="%(act_sessions_graph)d" height="150" width="510"/>
+                        <action string="Sessions" name="%(act_session_calendar)d"/>
+                    </column>
+                    <column>
+                       <action string="Courses" name="%(act_course_list)d"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="open_board_session">
+        <field name="name">Session Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="board_session_form"/>
+    </record>
+
+    <menuitem
+            name="Session Dashboard" parent="menu_open_academy_root"
+            action="open_board_session"
+            sequence="1"
+            id="menu_board_session"/>
+
+</odoo>
